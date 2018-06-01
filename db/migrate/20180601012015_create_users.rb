@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :email
       t.string :home_city
       t.integer :facebook_id
+      t.string :access_token
 
       t.timestamps
     end
