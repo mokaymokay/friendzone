@@ -16,13 +16,13 @@ ActiveRecord::Schema.define(version: 2018_06_01_012015) do
   enable_extension "plpgsql"
 
   create_table "users", force: :cascade do |t|
-    t.integer "foursquare_id"
+    t.bigint "foursquare_id"
     t.string "first_name"
     t.string "last_name"
-    t.text "photo"
+    t.jsonb "photo"
     t.string "email"
     t.string "home_city"
-    t.integer "facebook_id"
+    t.bigint "facebook_id"
     t.string "access_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

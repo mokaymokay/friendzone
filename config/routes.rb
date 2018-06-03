@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get 'home', to: 'home#show'
   # Show user info
   get 'me', to: 'me#show', as: 'me'
+  get 'addfriends', to: 'me#add_friends'
 
   root to: 'home#show'
 end
