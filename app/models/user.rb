@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   # Make photo hash accessible, i.e. 'user.photo.prefix' and 'user.photo.suffix'
   serialize :photo
-  before_save :encrypt_access_token
+  before_save :encrypt_access_token, if: :access_token?
 
   # use hash sent by Foursquare to look up user in DB
   # if user does not exist, create new user and save. if info has changed, update user and save.
