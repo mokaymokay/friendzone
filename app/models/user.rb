@@ -1,6 +1,15 @@
 class User < ApplicationRecord
   before_save :encrypt_access_token, if: :access_token?
   validates :foursquare_id, uniqueness: true, presence: true
+  has_many :direct_relationships, class_name: "Relationship", foreign_key: "user_first_id"
+  has_many :inverse_relationships, class_name: "Relationship", foreign_key: "user_second_id"
+
+  has_many :direct_friends, -> { where(relationships: { relationship_type: 'friends'}) }, through: :direct_relationships, source: :user_second
+  has_many :inverse_friends, -> { where(relationships: { relationship_type: 'friends'}) }, through: :inverse_relationships, source: :user_first
+
+  def friends
+    direct_friends | inverse_friends
+  end
 
   # use hash sent by Foursquare to look up user in DB
   # if user does not exist, create new user and save. if info has changed, update user and save.

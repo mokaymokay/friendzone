@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   get 'home', to: 'home#show'
   # Show user info
   get 'me', to: 'me#show', as: 'me'
-  get 'addfriends', to: 'me#add_friends'
+  get 'addfriends', to: 'me#add_friends_from_foursquare'
+  get 'friends', to: 'me#friends', as: 'friends'
 
   root to: 'home#show'
 end
