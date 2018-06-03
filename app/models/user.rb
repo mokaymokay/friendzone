@@ -1,18 +1,20 @@
 class User < ApplicationRecord
   before_save :encrypt_access_token, if: :access_token?
   validates :foursquare_id, uniqueness: true, presence: true
+  # Establish relationships with two custom foreign keys
   has_many :direct_relationships, class_name: "Relationship", foreign_key: "user_first_id"
   has_many :inverse_relationships, class_name: "Relationship", foreign_key: "user_second_id"
-
+  # Query friends
   has_many :direct_friends, -> { where(relationships: { relationship_type: 'friends'}) }, through: :direct_relationships, source: :user_second
   has_many :inverse_friends, -> { where(relationships: { relationship_type: 'friends'}) }, through: :inverse_relationships, source: :user_first
 
+  # Call all of the user's friends
   def friends
     direct_friends | inverse_friends
   end
 
-  # use hash sent by Foursquare to look up user in DB
-  # if user does not exist, create new user and save. if info has changed, update user and save.
+  # Use hash sent by Foursquare to look up user in DB
+  # If user does not exist, create new user and save. If info has changed, update user and save.
   def self.find_or_create_from_auth_hash(auth)
     where(foursquare_id: auth.uid).first_or_initialize.tap do |user|
       user.foursquare_id = auth.uid
@@ -22,20 +24,21 @@ class User < ApplicationRecord
       user.email = auth.info.email
       user.access_token = auth.credentials.token
       user.home_city = auth.info.location
-      # add default parameter nil in case if facebook key does not exist
+      # Add default parameter nil in case if Facebook key does not exist
       user.facebook_id = auth.extra.raw_info['contact'].fetch('facebook') { nil }
 
       user.save!
     end
   end
 
+  # Create or update friends when user authorizes Foursquare
   def self.create_or_update_friend(friend)
     where(foursquare_id: friend['id']).first_or_initialize.tap do |user|
       user.foursquare_id = friend['id']
       user.first_name = friend['firstName']
       user.last_name = friend['lastName']
       user.photo = { prefix: friend['photo']['prefix'], suffix: friend['photo']['suffix'] }
-      # add default parameter nil in case if facebook and email keys do not exist
+      # Add default parameter nil in case if Facebook and email keys do not exist
       user.facebook_id = friend['contact'].fetch('facebook') { nil }
       user.email = friend['contact'].fetch('email') { nil }
       user.home_city = friend['homeCity']
