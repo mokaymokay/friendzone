@@ -31,9 +31,10 @@ class User < ApplicationRecord
     end
   end
 
-  # Create or update friends when user authorizes Foursquare
-  def self.create_or_update_friend(friend)
+  # Find or create friends when user authorizes Foursquare
+  def self.find_or_create_friend(friend)
     where(foursquare_id: friend['id']).first_or_initialize.tap do |user|
+    # TODO: This code block shouldn't be run if if record exists... but it's okay because it's a good idea to update attributes
       user.foursquare_id = friend['id']
       user.first_name = friend['firstName']
       user.last_name = friend['lastName']
@@ -42,7 +43,6 @@ class User < ApplicationRecord
       user.facebook_id = friend['contact'].fetch('facebook') { nil }
       user.email = friend['contact'].fetch('email') { nil }
       user.home_city = friend['homeCity']
-
       user.save!
     end
   end

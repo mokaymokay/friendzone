@@ -5,7 +5,7 @@ class MeController < ApplicationController
   before_action :decrypt_access_token, only: :add_friends_from_foursquare
 
   def show
-    redirect_to :addfriends
+    # redirect_to :addfriends
   end
 
   def add_friends_from_foursquare
@@ -13,8 +13,8 @@ class MeController < ApplicationController
     response['response']['friends']['items'].each do |friend|
       # Only add friend if relationship on Foursquare is 'friend'
       if friend['relationship'] == 'friend'
-        # Create or update user
-        users_friend = User.create_or_update_friend(friend)
+        # Find or create friend
+        users_friend = User.find_or_create_friend(friend)
         # Create relationship
         Relationship.create(user_first_id: current_user.id, user_second_id: users_friend.id, relationship_type: 'friends')
       end
