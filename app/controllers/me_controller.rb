@@ -1,4 +1,5 @@
 class MeController < ApplicationController
+  helper LocalTimeHelper
   include HTTParty
   before_action :authenticate
   # Make method only available to specific action
