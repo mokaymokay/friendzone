@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  before_save :encrypt_access_token, if: :access_token?
+  before_save :encrypt_access_token, if: :access_token_changed?
   validates :foursquare_id, uniqueness: true, presence: true
   # Establish relationships with two custom foreign keys
   has_many :direct_relationships, class_name: "Relationship", foreign_key: "user_first_id"
