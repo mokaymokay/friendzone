@@ -2,7 +2,6 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_or_create_from_auth_hash(auth_hash)
-    # TODO: might need to add regex to rid of number for foreign homeCities
     user_query = @user.home_city
     # Get geocode, coordinates, and time zone from Google Geocoding API or database
     geocode = Geocode.find_or_create_from_query(user_query)
