@@ -64,4 +64,5 @@ gem 'tzinfo'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'httparty', '~> 0.13.7'
 gem 'omniauth-foursquare'
-gem "figaro"
+gem 'figaro'
+gem 'font-awesome-rails'
