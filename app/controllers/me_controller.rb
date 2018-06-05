@@ -6,7 +6,6 @@ class MeController < ApplicationController
   before_action :decrypt_access_token, only: :add_friends_from_foursquare
 
   def show
-    # redirect_to :addfriends
   end
 
   # /addfriends or addfriends_path
