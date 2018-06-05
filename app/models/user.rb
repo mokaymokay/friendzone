@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  before_save :encrypt_access_token, if: :access_token?
+  before_save :encrypt_access_token, if: :access_token_changed?
   validates :foursquare_id, uniqueness: true, presence: true
   # Establish relationships with two custom foreign keys
   has_many :direct_relationships, class_name: "Relationship", foreign_key: "user_first_id"
@@ -23,7 +23,14 @@ class User < ApplicationRecord
       user.photo = auth.info.image
       user.email = auth.info.email
       user.access_token = auth.credentials.token
-      user.home_city = auth.info.location
+      location = auth.info.location
+      # Remove text that follows a comma if it is not a US state
+      check_for_US_state = /(,)(?> [A-Z][A-Z])/
+      before_comma = /(.*),/
+      # Check if location does not include comma OR does include comma followed by a US state
+      # If true, return location; else, return text before comma
+      location = (!location.include?(',') || check_for_US_state.match(location) ? location : before_comma.match(location)[1])
+      user.home_city = location
       # Add default parameter nil in case if Facebook key does not exist
       user.facebook_id = auth.extra.raw_info['contact'].fetch('facebook') { nil }
 
@@ -31,9 +38,10 @@ class User < ApplicationRecord
     end
   end
 
-  # Create or update friends when user authorizes Foursquare
-  def self.create_or_update_friend(friend)
+  # Find or create friends when user authorizes Foursquare
+  def self.find_or_create_friend(friend)
     where(foursquare_id: friend['id']).first_or_initialize.tap do |user|
+    # NOTE: This code block shouldn't be run if if record exists... but it's okay because it's a good idea to update attributes
       user.foursquare_id = friend['id']
       user.first_name = friend['firstName']
       user.last_name = friend['lastName']
@@ -41,7 +49,14 @@ class User < ApplicationRecord
       # Add default parameter nil in case if Facebook and email keys do not exist
       user.facebook_id = friend['contact'].fetch('facebook') { nil }
       user.email = friend['contact'].fetch('email') { nil }
-      user.home_city = friend['homeCity']
+      location = friend['homeCity']
+      # Remove text that follows a comma if it is not a US state
+      check_for_US_state = /(,)(?> [A-Z][A-Z])/
+      before_comma = /(.*),/
+      # Check if location does not include comma OR includes comma followed by a US state
+      # If true, return location; else, return text before comma
+      location = (!location.include?(',') || check_for_US_state.match(location) ? location : before_comma.match(location)[1])
+      user.home_city = location
 
       user.save!
     end
