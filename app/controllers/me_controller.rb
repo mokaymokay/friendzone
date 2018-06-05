@@ -1,5 +1,5 @@
 class MeController < ApplicationController
-  helper LocalTimeHelper
+  include LocalTimeHelper
   include HTTParty
   before_action :authenticate
   # Make method only available to specific action
@@ -34,6 +34,7 @@ class MeController < ApplicationController
 
   def friends
     @friends = current_user.friends
+    @friend_zones = @friends.map(&:time_zone).to_a.map{ |e| get_current_local_time(e).strftime('%b %e, %l:%M %p')}.uniq.sort
   end
 
   private
