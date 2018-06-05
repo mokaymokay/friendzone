@@ -1,5 +1,6 @@
 class Geocode < ApplicationRecord
   validates :query, uniqueness: true
+  validates :time_zone, presence: true
 
   # Find geocode if it exists in DB, otherwise create it by calling and saving search results from APIs
   def self.find_or_create_from_query(search_query)

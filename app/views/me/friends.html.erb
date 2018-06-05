@@ -5,16 +5,14 @@
   <% @friend_zones.each do |fz| %>
     <div class="col-sm">
       <%= fz %>
+      <% friends_in_tz = @friends.select {|f| f.time_zone != nil && get_current_local_time(f.time_zone).strftime('%b %e, %l:%M %p') == fz } %>
+      <% friends_in_tz.each do |f| %>
+        <li><%= f.first_name %> <%= f.last_name %></li>
+        <img src="<%= asset_path (f.photo['prefix'] + '100x100' + f.photo['suffix']) %>">
+        <p><%= get_current_local_time(f.time_zone).strftime('%b %e, %l:%M %p') %></p>
+      <% end %>
     </div>
   <% end %>
 </div>
-
-<% @friends.each do |f| %>
-  <li><%= f.first_name %> <%= f.last_name %></li>
-  <img src="<%= asset_path (f.photo['prefix'] + '100x100' + f.photo['suffix']) %>">
-  <% if f.time_zone %>
-  <p><%= get_current_local_time(f.time_zone).strftime('%b %e, %l:%M %p') %></p>
-  <% end %>
-<% end %>
 
 <%= link_to "Log out", logout_path %>

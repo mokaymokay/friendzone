@@ -1,11 +1,14 @@
 class User < ApplicationRecord
+   # If already encrypted, won't encrypt again
   before_save :encrypt_access_token, if: :access_token_changed?
   validates :foursquare_id, uniqueness: true, presence: true
   # Establish relationships with two custom foreign keys
   has_many :direct_relationships, class_name: "Relationship", foreign_key: "user_first_id"
   has_many :inverse_relationships, class_name: "Relationship", foreign_key: "user_second_id"
   # Query friends
+  # Query users using the user_second association to the relationships table
   has_many :direct_friends, -> { where(relationships: { relationship_type: 'friends'}) }, through: :direct_relationships, source: :user_second
+  # Query users using the user_first association to the relationships table
   has_many :inverse_friends, -> { where(relationships: { relationship_type: 'friends'}) }, through: :inverse_relationships, source: :user_first
 
   # Call all of the user's friends
@@ -40,8 +43,9 @@ class User < ApplicationRecord
 
   # Find or create friends when user authorizes Foursquare
   def self.find_or_create_friend(friend)
+    # TODO: Try getting rid of tap so only updates user if they authorize (friend can update time zone of user who hasn't authorized their foursquare account)
     where(foursquare_id: friend['id']).first_or_initialize.tap do |user|
-    # NOTE: This code block shouldn't be run if if record exists... but it's okay because it's a good idea to update attributes
+      # If user does not exist, create new user and save. If info has changed, update user and save.
       user.foursquare_id = friend['id']
       user.first_name = friend['firstName']
       user.last_name = friend['lastName']

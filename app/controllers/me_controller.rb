@@ -32,8 +32,11 @@ class MeController < ApplicationController
   end
 
   def friends
+    # Get array of logged in user's friends
     @friends = current_user.friends
-    @friend_zones = @friends.map(&:time_zone).to_a.map{ |e| get_current_local_time(e).strftime('%b %e, %l:%M %p')}.uniq.sort
+    # Get array of time zones, omit nil, get current time using gem, format, retrieve only unique values then sort by descending order
+    @friend_zones = @friends.map(&:time_zone).compact.map{ |e| get_current_local_time(e).strftime('%b %e, %l:%M %p')}.uniq.sort
+    p @friends.select {|f| f.time_zone != nil && get_current_local_time(f.time_zone).strftime('%b %e, %l:%M %p') == @friend_zones[1] }
   end
 
   private
