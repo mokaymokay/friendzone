@@ -8,8 +8,9 @@
   margin: 5px;
 }
 
-#friendzone {
-  margin: 2vw 1vw;
+#friendzone-container {
+  margin: 1.5vw 1vw;
+  height: 100vh;
 }
 
 .friendzone-header {
@@ -18,4 +19,12 @@
 
 #friendzone-metrics {
   text-align: center;
+  margin-bottom: 2vw;
+  color: gray;
+}
+
+.zone-column {
+  display: flex;
+  flex-direction: column;
+  margin: 0 1%;
 }

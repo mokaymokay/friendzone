@@ -1,29 +1,28 @@
-<div id="friendzone" class="container-fluid">
+<div id="friendzone-container" class="container-fluid">
 
   <div id="friendzone-metrics">
-    <%# TODO: Add pluralize helper %>
-    <p><%= @friends_with_tz.length %> friends in <%= @cities.length %> cities across <%= @friend_zones.length %> timezones</p>
+    <p><%= pluralize(@friends_with_tz.length, 'friend')%> in <%= pluralize(@cities.length, 'city') %> across <%= pluralize(@friend_zones.length, 'time zone') %></p>
   </div>
-
   <div class="row">
     <% @friend_zones.each do |fz| %>
-      <div class="col zone">
+    <%# Get array of friends whose current time matches column time %>
+    <% friends_in_tz = @friends.select {|f| f.time_zone != nil && get_current_local_time(f.time_zone).strftime('%Y%m%d%H') == fz } %>
+    <% number_of_columns = friends_in_tz.count/8 %>
+      <div class="zone-column" style="max-width: <%= number_of_columns > 1 ? number_of_columns*6 : 6 %>%">
         <div class="friendzone-header">
           <h6><%= Time.parse(fz).strftime('%b %e') %></h6>
           <h6 class="text-lowercase"><%= Time.parse(fz).strftime('%l:%M %p') %></h6>
         </div>
-        <%# Get array of friends whose current time matches column time %>
-        <% friends_in_tz = @friends.select {|f| f.time_zone != nil && get_current_local_time(f.time_zone).strftime('%Y%m%d%H') == fz } %>
         <% if friends_in_tz.length > 8 %>
           <% while friends_in_tz.length != 0 %>
-            <div class="col-sm">
+            <div class="people-cloumn">
               <% friends_in_tz.shift(8).each do |f| %>
                 <img class="avatar rounded-circle" src="<%= asset_path (f.photo['prefix'] + '100x100' + f.photo['suffix']) %>" data-toggle="tooltip" data-placement="top" data-html="true" data-animation="true" title="<%= f.first_name %> <%= f.last_name %><br><%= f.home_city %>" alt="<%= f.first_name %> <%= f.last_name %>">
               <% end %>
             </div>
           <% end %>
         <% else %>
-          <div class="col-sm">
+          <div class="people-cloumn">
             <% friends_in_tz.each do |f| %>
               <img class="avatar rounded-circle" src="<%= asset_path (f.photo['prefix'] + '100x100' + f.photo['suffix']) %>" data-toggle="tooltip" data-placement="top" data-html="true" data-animation="true" title="<%= f.first_name %> <%= f.last_name %><br><%= f.home_city %>" alt="<%= f.first_name %> <%= f.last_name %>">
             <% end %>
