@@ -11,7 +11,7 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
+//= require popper.min
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
