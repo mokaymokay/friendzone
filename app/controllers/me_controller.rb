@@ -38,7 +38,7 @@ class MeController < ApplicationController
     # Total number of cities
     @cities = @friends_with_tz.uniq{ |f| "#{f[:lat]}-#{f[:lng]}" }
     # Get array of time zones, omit nil, get current time using gem, format, retrieve only unique values then sort by descending order
-    @friend_zones = @friends.map(&:time_zone).compact.map{ |e| get_current_local_time(e).strftime('%Y%m%d%H')}.uniq.sort
+    @friend_zones = @friends.map(&:time_zone).compact.map{ |e| get_current_local_time(e).strftime('%Y%m%d%H%M')}.uniq.sort
   end
 
   private

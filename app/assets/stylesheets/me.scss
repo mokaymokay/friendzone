@@ -25,6 +25,19 @@
 
 .zone-column {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin: 0 1%;
+}
+
+.friendzone-header {
+  position: absolute;
+  top: 120px;
+}
+
+.people-cloumn {
+  margin-top: 50px;
+}
+
+#time-zone-container {
+  justify-content: center;
 }
