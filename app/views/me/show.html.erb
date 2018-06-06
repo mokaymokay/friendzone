@@ -1,9 +1,10 @@
-<div class="container">
-  <% current_user.attributes.each do |key, value| %>
-    <%= key %>: <%= value %> <br>
-  <% end %>
-
-  <%= link_to "Friends", friends_path %>
+<div class="container profile-center">
+  <h4 class="mb-4">Hello, <%= current_user.first_name %>!</h4>
+  <img class="rounded-circle mb-4" src="<%= asset_path (current_user.photo['prefix'] + '150x150' + current_user.photo['suffix']) %>" alt="user-photo">
+  <p><strong>Current City: </strong><%= current_user.home_city %></p>
+  <p><strong>Time Zone: </strong><%= current_user.time_zone %></p>
+  <a href="<%= friends_path %>"><button type="button" class="btn btn-secondary btn-login btn-lg mt-4">View Friends</button></a>
   <br>
-  <%= link_to "Import Friends from Foursquare", addfriends_path %>
+  <a href="<%= addfriends_path %>"><button type="button" class="btn btn-secondary btn-login btn-lg mt-4">Import from Foursquare</button></a>
+
 </div>
