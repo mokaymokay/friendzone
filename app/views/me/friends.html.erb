@@ -1,10 +1,12 @@
 <div id="friendzone" class="container-fluid">
+
   <div id="friendzone-metrics">
     <%# TODO: Add pluralize helper %>
     <p><%= @friends_with_tz.length %> friends in <%= @cities.length %> cities across <%= @friend_zones.length %> timezones</p>
   </div>
+
   <div class="row">
-    <% @friend_zones.each do |fz, i| %>
+    <% @friend_zones.each do |fz| %>
       <div class="col zone">
         <div class="friendzone-header">
           <h6><%= Time.parse(fz).strftime('%b %e') %></h6>
@@ -22,9 +24,10 @@
           <% end %>
         <% else %>
           <div class="col-sm">
-          <% friends_in_tz.each do |f| %>
-            <img class="avatar rounded-circle" src="<%= asset_path (f.photo['prefix'] + '100x100' + f.photo['suffix']) %>" data-toggle="tooltip" data-placement="top" data-html="true" data-animation="true" title="<%= f.first_name %> <%= f.last_name %><br><%= f.home_city %>" alt="<%= f.first_name %> <%= f.last_name %>">
-          <% end %>
+            <% friends_in_tz.each do |f| %>
+              <img class="avatar rounded-circle" src="<%= asset_path (f.photo['prefix'] + '100x100' + f.photo['suffix']) %>" data-toggle="tooltip" data-placement="top" data-html="true" data-animation="true" title="<%= f.first_name %> <%= f.last_name %><br><%= f.home_city %>" alt="<%= f.first_name %> <%= f.last_name %>">
+            <% end %>
+          </div>
         <% end %>
       </div>
     <% end %>
