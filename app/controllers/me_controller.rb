@@ -33,6 +33,10 @@ class MeController < ApplicationController
   def friends
     # Get array of logged in user's friends
     @friends = current_user.friends
+    # Total number of friends with static time zone attribute (home city)
+    @friends_with_tz = @friends.select { |f| f.time_zone != nil }
+    # Total number of cities
+    @cities = @friends_with_tz.uniq{ |f| "#{f[:lat]}-#{f[:lng]}" }
     # Get array of time zones, omit nil, get current time using gem, format, retrieve only unique values then sort by descending order
     @friend_zones = @friends.map(&:time_zone).compact.map{ |e| get_current_local_time(e).strftime('%b %e @ %l:%M %p')}.uniq.sort
   end

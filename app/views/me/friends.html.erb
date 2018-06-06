@@ -1,4 +1,8 @@
 <div id="friendzone" class="container-fluid">
+  <div class="">
+    <%# TODO: Add pluralize helper %>
+    <p><%= @friends_with_tz.length %> friends in <%= @cities.length %> cities across <%= @friend_zones.length %> timezones</p>
+  </div>
   <div class="row">
     <% @friend_zones.each do |fz| %>
       <div class="col-sm">
