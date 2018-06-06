@@ -15,12 +15,19 @@
   </head>
 
   <body>
+    <% if current_user %>
       <nav class="navbar sticky-top navbar-light bg-light">
-        <a class="navbar-brand" href="/me"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i></a>
-        <h4><%= get_current_local_time(current_user.time_zone).strftime('%l:%M %p') %></h4>
-        <a class="navbar-brand" href="/logout"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i></a>
+    <% else %>
+      <nav class="navbar sticky-top navbar-dark" style="background-color: black">
+    <% end %>
+        <a class="navbar-brand" href="/me"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i> Friendzone</a>
+        <% if current_user %>
+          <h4><%= get_current_local_time(current_user.time_zone).strftime('%l:%M %p') %></h4>
+          <a class="navbar-brand" href="/logout" onclick="return confirm('Are you sure?')"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i></a>
+        <% else %>
+          <img class="foursquare-logo" src="<%= asset_path 'Powered-by-Foursquare-one-color-300.png' %>">
+        <% end %>
       </nav>
       <%= yield %>
-    </div>
   </body>
 </html>

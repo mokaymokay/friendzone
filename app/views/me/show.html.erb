@@ -1,11 +1,9 @@
-<% if current_user %>
+<div class="container">
   <% current_user.attributes.each do |key, value| %>
     <%= key %>: <%= value %> <br>
   <% end %>
-<% end %>
 
-<%= link_to "Friends", friends_path %>
-<br>
-<%= link_to "Import Friends from Foursquare", addfriends_path %>
-<br>
-<%= link_to "Log out", logout_path %>
+  <%= link_to "Friends", friends_path %>
+  <br>
+  <%= link_to "Import Friends from Foursquare", addfriends_path %>
+</div>
