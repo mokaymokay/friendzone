@@ -3,8 +3,12 @@
   <img class="rounded-circle mb-4" src="<%= asset_path (current_user.photo['prefix'] + '150x150' + current_user.photo['suffix']) %>" alt="user-photo">
   <p><strong>Current City: </strong><%= current_user.home_city %></p>
   <p><strong>Time Zone: </strong><%= current_user.time_zone %></p>
-  <a href="<%= friends_path %>"><button type="button" class="btn btn-secondary btn-login btn-lg mt-4">View Friends</button></a>
-  <br>
-  <a href="<%= addfriends_path %>"><button type="button" class="btn btn-secondary btn-login btn-lg mt-4">Import from Foursquare</button></a>
-
+  <div class="mt-5">
+    <% if current_user.friends.empty? %>
+      <p>Let's get started by adding your friends from Foursquare to Friendzone.</p>
+      <a href="<%= addfriends_path %>"><button type="button" class="btn btn-secondary btn-login btn-lg">Import Data</button></a>
+    <% else %>
+      <a href="<%= friends_path %>"><button type="button" class="btn btn-secondary btn-login btn-lg">View Friends</button></a>
+    <% end %>
+  </div>
 </div>
