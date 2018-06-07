@@ -1,12 +1,10 @@
 class MeController < ApplicationController
-  include LocalTimeHelper
   include HTTParty
   before_action :authenticate
   # Make method only available to specific action
   before_action :decrypt_access_token, only: :add_friends_from_foursquare
 
   def show
-    # redirect_to :addfriends
   end
 
   # /addfriends or addfriends_path
@@ -33,8 +31,14 @@ class MeController < ApplicationController
   end
 
   def friends
+    # Get array of logged in user's friends
     @friends = current_user.friends
-    @friend_zones = @friends.map(&:time_zone).to_a.map{ |e| get_current_local_time(e).strftime('%b %e, %l:%M %p')}.uniq.sort
+    # Total number of friends with static time zone attribute (home city)
+    @friends_with_tz = @friends.select { |f| f.time_zone != nil }
+    # Total number of cities
+    @cities = @friends_with_tz.uniq{ |f| "#{f[:lat]}-#{f[:lng]}" }
+    # Get array of time zones, omit nil, get current time using gem, format, retrieve only unique values then sort by descending order
+    @friend_zones = @friends.map(&:time_zone).compact.map{ |e| get_current_local_time(e).strftime('%Y%m%d%H%M')}.uniq.sort
   end
 
   private

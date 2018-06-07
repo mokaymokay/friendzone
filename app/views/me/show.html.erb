@@ -1,9 +1,14 @@
-<% if current_user %>
-  <% current_user.attributes.each do |key, value| %>
-    <%= key %>: <%= value %> <br>
-  <% end %>
-<% end %>
-
-<%= link_to "Add Friends from Foursquare", addfriends_path %>
-<br>
-<%= link_to "Log out", logout_path %>
+<div class="container profile-center">
+  <h4 class="mb-4">Hello, <%= current_user.first_name %>!</h4>
+  <img class="rounded-circle mb-4" src="<%= asset_path (current_user.photo['prefix'] + '150x150' + current_user.photo['suffix']) %>" alt="user-photo">
+  <p><strong>Current City: </strong><%= current_user.home_city %></p>
+  <p><strong>Time Zone: </strong><%= current_user.time_zone %></p>
+  <div class="mt-5">
+    <% if current_user.friends.empty? %>
+      <p>Let's get started by adding your friends from Foursquare to Friendzone.</p>
+      <a href="<%= addfriends_path %>"><button type="button" class="btn btn-secondary btn-login btn-lg">Import Data</button></a>
+    <% else %>
+      <a href="<%= friends_path %>"><button type="button" class="btn btn-secondary btn-login btn-lg">View Friends</button></a>
+    <% end %>
+  </div>
+</div>
