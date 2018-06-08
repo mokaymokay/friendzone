@@ -1,0 +1,6 @@
+<p><%= Time.at(@most_recent['createdAt']).strftime('%l:%M %p') %></p>
+<p><%= @most_recent['venue']['name'] %></p>
+<p><%= @most_recent['venue']['location']['address'] %> <%= @most_recent['venue']['location']['crossStreet'] %></p>
+<p><%= @most_recent['venue']['location']['city'] %>, <%= @most_recent['venue']['location']['state'] %></p>
+<p><%= @most_recent['venue']['location']['country'] %></p>
+<p><%= @most_recent['venue']['location']['lat'] %> <%= @most_recent['venue']['location']['lng'] %></p>
