@@ -1,24 +1,32 @@
-# README
+![friendzone logo](app/assets/images/friendzone-full-logo.png)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+### *Friendzone* is an app that lets you see your friends' location and local time based on their time zone.
 
-Things you may want to cover:
+## Built with:
+* Ruby on Rails
+* PostgreSQL
+* [Foursquare Places API](https://developer.foursquare.com/places-api)
+* [Google Geocoding API](https://developers.google.com/maps/documentation/geocoding/intro)
+* [Google Time Zone API](https://developers.google.com/maps/documentation/timezone/intro)
 
-* Ruby version
+## Description
+The app uses the Google Geocoding API to get a user's coordinates from a query string (home city) and the Time Zone API to get the Time Zone ID (defined by [Unicode Common Locale Data Repository (CLDR) project](http://cldr.unicode.org/)). The TZInfo gem is used to get the current local time with the Time Zone ID.
 
-* System dependencies
+## Usage Instructions
+Users need to log in using their Foursquare accounts. Once authorized, the app will import their friends' data from Foursquare in order to display their home cities and local time.
 
-* Configuration
+## Screenshots
 
-* Database creation
+Home page when not logged in:
+![home](github/home.png)
 
-* Database initialization
+Friends in various time zones, shows name and location when hovered:
+![friends](github/friends.png)
 
-* How to run the test suite
+## Future
+Currently, the app uses a static attribute (home city) from Foursquare's user data, instead of dynamic location data (check ins), which requires individual user's authorization. Dynamic location display is currently being implemented, along with the mobile version using React Native.
 
-* Services (job queues, cache servers, search engines, etc.)
+## Acknowledgement
 
-* Deployment instructions
-
-* ...
+### Design Inspiration:
+* [timezone.io](https://timezone.io/)
