@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="See where and when your friends are">
     <meta name="author" content="Kay Mok">
-    <%#= favicon_link_tag %>
+    <%= favicon_link_tag %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <title>Friendzone</title>
@@ -17,12 +17,13 @@
   <body>
     <% if current_user %>
       <nav class="navbar sticky-top navbar-light bg-light">
+        <a class="navbar-brand" href="/me"><img src="<%= image_path 'friendzone-full-logo.png' %>" height="30" class="d-inline-block align-top" alt=""></a>
     <% else %>
       <nav class="navbar sticky-top navbar-dark" style="background-color: black">
+        <a class="navbar-brand" href="/"><img src="<%= image_path 'friendzone-full-logo-light.png' %>" height="30" class="d-inline-block align-top" alt=""></a>
     <% end %>
-        <a class="navbar-brand" href="/me"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i> Friendzone</a>
         <% if current_user %>
-          <h4 style="margin-left: -7%"><%= get_current_local_time(current_user.time_zone).strftime('%l:%M %p') %></h4>
+          <h4 style="margin-right: 7%;"><%= get_current_local_time(current_user.time_zone).strftime('%l:%M %p') %></h4>
           <a class="navbar-brand" href="/logout" onclick="return confirm('Are you sure?')"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i></a>
         <% else %>
           <img class="foursquare-logo" src="<%= asset_path 'Powered-by-Foursquare-one-color-300.png' %>">
