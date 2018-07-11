@@ -19,8 +19,12 @@ class SessionsController < ApplicationController
     time_zone_response = JSON.parse(HTTParty.get("https://maps.googleapis.com/maps/api/timezone/json?location=#{current_user.lat},#{current_user.lng}&timestamp=#{Time.now.to_i}&key=#{ENV['GOOGLE_GEOCODING_API_KEY']}").body)
     current_user.time_zone = time_zone_response['timeZoneId']
     current_user.save
-    # Redirect to profile
-    redirect_to :me
+    # Conditionally redirect to profile or friends page
+    if current_user.friends.empty?
+      redirect_to :me
+    else
+      redirect_to :friends
+    end
   end
 
   def destroy
