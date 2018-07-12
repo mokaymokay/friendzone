@@ -16,18 +16,44 @@
 
   <body>
     <% if user_signed_in? %>
-      <nav class="navbar sticky-top navbar-light bg-light">
-        <a class="navbar-brand" href="/me"><img src="<%= image_path 'friendzone-full-logo.png' %>" height="30" class="d-inline-block align-top" alt=""></a>
+      <nav class="navbar navbar-expand-md sticky-top navbar-light bg-light">
+        <img src="<%= image_path 'friendzone-full-logo.png' %>" class="align-top friendzone-logo d-none d-md-block" alt="friendzone-logo">
+        <h4 id="current-time"><%= get_current_local_time(current_user.time_zone).strftime('%l:%M %p') %></h4>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
     <% else %>
-      <nav class="navbar sticky-top navbar-dark" style="background-color: black">
-        <a class="navbar-brand" href="/"><img src="<%= image_path 'friendzone-full-logo-light.png' %>" height="30" class="d-inline-block align-top" alt=""></a>
+      <nav class="navbar sticky-top navbar-dark dark-navbar">
+        <a class="navbar-brand" href="/"><img src="<%= image_path 'friendzone-full-logo-light.png' %>" class="d-inline-block align-top friendzone-logo" alt="friendzone-logo"></a>
     <% end %>
-        <% if user_signed_in? %>
-          <h4 style="margin-right: 7%;"><%= get_current_local_time(current_user.time_zone).strftime('%l:%M %p') %></h4>
-          <a class="navbar-brand" href="/logout" onclick="return confirm('Are you sure?')"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i></a>
-        <% else %>
-          <img class="foursquare-logo" src="<%= asset_path 'Powered-by-Foursquare-one-color-300.png' %>">
-        <% end %>
+
+    <% if user_signed_in? %>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="nav navbar-nav ml-auto">
+          <li>
+              <a class="navbar-brand" href="/friends">
+                <i class="fa fa-users fa-lg" aria-hidden="true"></i>
+                <p>Friends</p>
+              </a>
+          </li>
+          <li>
+            <a class="navbar-brand" href="/me">
+              <i class="fa fa-user-circle fa-lg" aria-hidden="true"></i>
+              <p>Profile</p>
+            </a>
+          </li>
+          <li>
+            <a class="navbar-brand" href="/logout" onclick="return confirm('Are you sure?')">
+              <i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>
+              <p>Log out</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    <% else %>
+      <img class="foursquare-logo" src="<%= asset_path 'Powered-by-Foursquare-one-color-300.png' %>">
+    <% end %>
+
       </nav>
       <%= yield %>
   </body>

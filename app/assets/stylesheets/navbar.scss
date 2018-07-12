@@ -1,0 +1,24 @@
+.friendzone-logo {
+  height: 30px;
+}
+
+.dark-navbar {
+  background-color: black;
+}
+
+.navbar p {
+  font-size: 0.75em;
+  margin: 0 auto;
+}
+
+.navbar {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  #current-time {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
