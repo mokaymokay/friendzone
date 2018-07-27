@@ -1,6 +1,6 @@
 ![friendzone logo](app/assets/images/friendzone-full-logo.png)
 
-### *Friendzone* is an app that lets you see your Foursquare friends' location and local time based on their time zone.
+### *Friendzone* allows you to see your Foursquare friends' location and local time based on their time zone. [Demo](https://mokaymokay.com/media/friendzone-demo.webm)
 
 ## Built with:
 * Ruby on Rails
@@ -13,7 +13,7 @@
 The app uses the Google Geocoding API to obtain a user's coordinates and the Time Zone API to get their Time Zone ID (defined by [Unicode Common Locale Data Repository (CLDR) project](http://cldr.unicode.org/)). Finally, the TZInfo gem is used to determine the current local time with the Time Zone ID.
 
 ## Usage Instructions
-Users need to log in using their Foursquare accounts. Once authorized, the app will import the user's and their friends' data from Foursquare in order to display their home cities and local time.
+Users authenticate with their Foursquare accounts. Once authorized, the app imports the user's and their friends' data from Foursquare in order to display their home cities and local time.
 
 ## Screenshots
 
