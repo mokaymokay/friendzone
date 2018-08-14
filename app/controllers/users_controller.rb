@@ -1,4 +1,4 @@
-class MeController < ApplicationController
+class UsersController < ApplicationController
   include HTTParty
   before_action :authenticate
   # Make method only available to specific action

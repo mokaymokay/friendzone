@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
     current_user.save
     # Conditionally redirect to profile or friends page
     if current_user.friends.empty?
-      redirect_to :me
+      redirect_to :profile
     else
       redirect_to :friends
     end

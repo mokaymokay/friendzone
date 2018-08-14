@@ -10,9 +10,9 @@ Rails.application.routes.draw do
   # Publicly available page with Login option
   get 'home', to: 'home#show'
   # Show user info
-  get 'me', to: 'me#show', as: 'me'
-  get 'addfriends', to: 'me#add_friends_from_foursquare'
-  get 'friends', to: 'me#friends', as: 'friends'
+  get 'profile', to: 'users#show', as: 'profile'
+  get 'addfriends', to: 'users#add_friends_from_foursquare'
+  get 'friends', to: 'users#friends', as: 'friends'
   get 'userlocation', to: 'sessions#get_current_location'
 
   root to: 'home#show'
